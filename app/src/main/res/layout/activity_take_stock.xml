@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.takestock.TakeStockActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_take_stock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="Take from Stock"
+        app:titleTextColor="@color/colorAccent"
+        android:background="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/container_take_stock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_take_stock">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:id="@+id/spinner_take_stock"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/custom_spinner_bg"
+                android:popupBackground="@drawable/custom_spinner_bg"
+                android:popupElevation="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/textview_take_stock_unit"
+                tools:listitem="@layout/item_products"/>
+
+            <TextView
+                android:id="@+id/textview_take_stock_unit"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="15sp"
+                android:fontFamily="@font/nunitosans_semibold"
+                android:textColor="@color/colorPrimary"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintBottom_toTopOf="@id/textinput_take_stock_qty"
+                app:layout_constraintStart_toEndOf="@id/spinner_take_stock"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="@tools:sample/lorem" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textinput_take_stock_qty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Quantity"
+                android:textColorHint="@color/colorPrimaryDark"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintTop_toBottomOf="@id/spinner_take_stock">
+
+                <EditText
+                    android:id="@+id/edittext_take_stock_qty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="5dp"
+                    android:textColor="@color/colorPrimary"
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/button_take_stock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="Take from Stock"
+                android:textAllCaps="false"
+                android:textColor="@color/colorAccent"
+                android:fontFamily="@font/nunitosans_semibold"
+                app:layout_constraintTop_toBottomOf="@id/textinput_take_stock_qty"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/progress_take_stock_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/colorPrimaryDark"
+                android:indeterminateTintMode="src_in"
+                app:layout_constraintTop_toBottomOf="@id/textinput_take_stock_qty"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progress_take_stock_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorPrimaryDark"
+        android:indeterminateTintMode="src_in"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_take_stock"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

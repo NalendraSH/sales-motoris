@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.addstore.AddStoreActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_add_store"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:title="Add Store"
+        app:titleTextColor="@color/background"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nama Toko"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edittext_add_store_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="textCapWords"
+            android:fontFamily="@font/roboto_regular"
+            tools:text="Toko Berkah"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_add_store_select_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:textAllCaps="false"
+        android:text="Pilih Lokasi Toko"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="@color/colorAccent"
+        android:drawableStart="@drawable/ic_location"
+        android:drawableLeft="@drawable/ic_location"
+        app:backgroundTint="@color/colorPrimaryDark" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Alamat"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edittext_add_store_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            tools:text="Jl. Barata Jaya No. 5"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_add_store_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:textAllCaps="false"
+        android:text="Simpan"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="@color/colorAccent"
+        app:backgroundTint="@color/colorPrimary" />
+
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progress_add_store"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorPrimary"
+        android:indeterminateTintMode="src_in"
+        android:layout_gravity="center"/>
+
+</LinearLayout>

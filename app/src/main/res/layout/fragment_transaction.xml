@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.transaction.TransactionFragment">
+
+    <ScrollView
+        android:id="@+id/container_transaction"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#EEEEEE">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/container_transaction_current_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginLeft="18dp"
+                app:cardBackgroundColor="#00A9EE">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textview_transaction_current_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="18sp"
+                        tools:text="Hari: Senin"/>
+
+                </FrameLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_transaction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="18dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:clipToPadding="false"
+                tools:listitem="@layout/item_transaction"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progress_transaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorPrimaryDark"
+        android:indeterminateTintMode="src_in"
+        android:layout_gravity="center_vertical|center_horizontal"/>
+
+</FrameLayout>

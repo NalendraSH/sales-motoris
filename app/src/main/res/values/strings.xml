@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">Sales Motoris</string>
+
+    <!-- networking -->
+    <string name="internet_connection_error">Internet connection unavailable</string>
+    <string name="server_error">Server error</string>
+
+    <!-- navigation drawer menu labels -->
+    <string name="nav_home">Beranda</string>
+    <string name="nav_profile">Profil</string>
+    <string name="nav_logout">Keluar</string>
+
+    <!-- toolbar titles when navigation menu item is selected -->
+    <string-array name="nav_item_activity_titles">
+        <item>Beranda</item>
+        <item>Profil</item>
+        <item>Keluar</item>
+    </string-array>
+
+    <!-- navigation drawer -->
+    <string name="nav_name">admin</string>
+    <string name="nav_website">admin@admin.com</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="openDrawer">open_drawer</string>
+    <string name="closeDrawer">close_drawer</string>
+
+    <!-- hard coded string -->
+    <string name="display_currency">Rp %1$s</string>
+    <string name="display_store">%1$s toko</string>
+    <string name="display_day_date">%1$s, %2$s</string>
+    <string name="visitation_status_done">Telah dikunjungi</string>
+    <string name="visitation_status_not_yet">Belum dikunjungi</string>
+    <string name="visitation_status_empty">Tidak ada orderan</string>
+    <string name="display_item_transactions_items">%1$s total barang terjual</string>
+    <string name="display_item_transactions_income">Rp %1$s total omset</string>
+    <string name="display_empty_detail_transaction_view">
+        Belum ada transaksi pada toko ini, klik tombol edit pada bagian kanan atas untuk mulai menambahkan transaksi
+    </string>
+
+    <!-- menu detail transaction -->
+    <string name="action_edit">Edit</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
