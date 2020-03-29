@@ -28,24 +28,63 @@
             android:layout_height="0dp"
             android:paddingBottom="10dp">
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardview_input_detail_transaction"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                app:layout_constraintTop_toTopOf="parent">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/imageview_input_detail_transaction"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:background="@color/colorAccent"/>
+                    <LinearLayout
+                        android:id="@+id/linear_placeholder_input_detail_transaction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical|center_horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/ic_image"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Upload Bukti Transaksi"
+                            android:fontFamily="@font/roboto_regular"/>
+                    </LinearLayout>
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recylerview_input_detail_transaction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/item_input_detail_transaction"/>
+                android:paddingBottom="18dp"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                app:layout_constraintTop_toBottomOf="@id/cardview_input_detail_transaction"
+                tools:listitem="@layout/item_input_detail_transaction"
+                tools:itemCount="3"/>
 
             <Button
                 android:id="@+id/button_input_detail_transaction_save"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="14dp"
-                android:layout_marginLeft="14dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:text="Simpan"
                 android:textAllCaps="false"
                 android:fontFamily="@font/roboto_regular"
@@ -72,18 +111,12 @@
                 android:id="@+id/button_input_detail_transaction_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginEnd="14dp"
-                android:layout_marginRight="14dp"
-                android:drawableLeft="@drawable/ic_add"
                 android:drawableStart="@drawable/ic_add"
                 android:drawablePadding="5dp"
                 android:paddingStart="10dp"
-                android:paddingLeft="10dp"
                 android:paddingEnd="20dp"
-                android:paddingRight="20dp"
                 android:text="Tambahkan"
                 android:textAllCaps="false"
                 android:fontFamily="@font/nunitosans_regular"

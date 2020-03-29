@@ -11,6 +11,6 @@ interface TransactionContract {
         fun showError()
     }
     interface Presenter: BaseMvpPresenter<View> {
-        fun getTransactions(accessToken: String, day: String)
+        fun getTransactions(accessToken: String, idSales: String)
     }
 }

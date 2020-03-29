@@ -11,6 +11,6 @@ interface StockContract {
         fun showError()
     }
     interface Presenter:BaseMvpPresenter<View> {
-        fun getStock(accessToken: String)
+        fun getStock(accessToken: String, idSales: String)
     }
 }

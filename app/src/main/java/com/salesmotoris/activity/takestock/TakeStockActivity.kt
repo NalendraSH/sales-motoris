@@ -34,7 +34,7 @@ class TakeStockActivity : BaseMvpActivity<TakeStockContract.View, TakeStockContr
                 id: Long
             ) {
                 textview_take_stock_unit.text = response.data[position].unit
-                productId = response.data[position].id
+                productId = response.data[position].id.toString()
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {

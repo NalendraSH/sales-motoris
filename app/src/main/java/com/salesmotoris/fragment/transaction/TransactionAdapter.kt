@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.salesmotoris.R
 import com.salesmotoris.activity.detailtransaction.DetailTransactionActivity
+import com.salesmotoris.activity.inputdetailtransaction.InputDetailTransactionActivity
 import com.salesmotoris.formatCurrency
 import com.salesmotoris.model.Transaction
 import kotlinx.android.synthetic.main.item_transaction.view.*
@@ -35,10 +36,18 @@ class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.ViewHolder>()
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindView(transactions[position], context)
         holder.itemView.setOnClickListener {
-            val intent = Intent(context, DetailTransactionActivity::class.java)
+            val intent = Intent()
             intent.putExtra("transaction_id", transactions[position].id)
+            intent.putExtra("store_id", transactions[position].id_store.toString())
             intent.putExtra("store", transactions[position].store)
-            (context as Activity).startActivityForResult(intent, 1)
+            intent.putExtra("visitation_id", transactions[position].id_visitation.toString())
+            if (transactions[position].id == "0") {
+                intent.setClass(context, InputDetailTransactionActivity::class.java)
+                context.startActivity(intent)
+            } else {
+                intent.setClass(context, DetailTransactionActivity::class.java)
+                context.startActivity(intent)
+            }
         }
     }
 

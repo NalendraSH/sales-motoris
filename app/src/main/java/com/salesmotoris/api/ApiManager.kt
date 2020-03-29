@@ -2,15 +2,17 @@ package com.salesmotoris.api
 
 import com.salesmotoris.BuildConfig
 import com.salesmotoris.model.AddStore
-import com.salesmotoris.model.DetailTransaction
 import okhttp3.Interceptor
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
 object ApiManager{
     private const val SERVER: String = BuildConfig.BASE_URL
@@ -27,7 +29,7 @@ object ApiManager{
             level = HttpLoggingInterceptor.Level.BODY
         }
 
-        val client = OkHttpClient.Builder().apply {
+        val client = OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS).apply {
             networkInterceptors().add(Interceptor { chain ->
                 val original = chain.request()
                 val request = original.newBuilder()
@@ -64,13 +66,13 @@ object ApiManager{
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())!!
 
-    fun getStock(accessToken: String) =
-        mApiService.getStock("Bearer $accessToken")
+    fun getStock(accessToken: String, idSales: String) =
+        mApiService.getStock("Bearer $accessToken", idSales)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())!!
 
     fun getProducts(accessToken: String) =
-        mApiService.getProducts(accessToken)
+        mApiService.getProducts("Bearer $accessToken")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())!!
 
@@ -79,18 +81,27 @@ object ApiManager{
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())!!
 
-    fun getTransactions(accessToken: String, day: String) =
-        mApiService.getTransactions("Bearer $accessToken", day)
+    fun getTransactions(accessToken: String, idSales: String) =
+        mApiService.getTransactions("Bearer $accessToken", idSales)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())!!
 
-    fun getDetailTransactions(accessToken: String, transactionId: String) =
-        mApiService.getDetailTransactions("Bearer $accessToken", transactionId)
+    fun getDetailTransactions(accessToken: String, transactionId: String, idSales: String) =
+        mApiService.getDetailTransactions("Bearer $accessToken", transactionId, idSales)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())!!
 
-    fun submitDetailTransaction(accessToken: String, detailTransaction: DetailTransaction.DetailTransactionBody) =
-        mApiService.submitDetailTransaction("Bearer $accessToken", detailTransaction)
+    fun submitDetailTransaction(accessToken: String,
+                                idSales: String,
+                                detailTransaction: RequestBody,
+                                totalIncome: RequestBody,
+                                totalItems: RequestBody,
+                                transactionId: RequestBody,
+                                visitationId: RequestBody,
+                                storeId: RequestBody,
+                                currentLocation: RequestBody,
+                                image: MultipartBody.Part) =
+        mApiService.submitDetailTransaction("Bearer $accessToken", idSales, detailTransaction, totalIncome, totalItems, transactionId, visitationId, storeId, currentLocation, image)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())!!
 

@@ -85,7 +85,7 @@
                             android:layout_marginBottom="10dp"
                             android:textColor="@color/colorAccent"
                             android:fontFamily="@font/roboto_regular"
-                            android:text="total pendapatan yang telah diperoleh"
+                            android:text="total pendapatan yang diperoleh"
                             android:textSize="14sp"
                             android:layout_gravity="center"/>
                     </LinearLayout>

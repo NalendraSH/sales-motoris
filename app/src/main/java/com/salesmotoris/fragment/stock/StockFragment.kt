@@ -1,6 +1,5 @@
 package com.salesmotoris.fragment.stock
 
-
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,7 +15,6 @@ import com.salesmotoris.model.Stock
 import com.salesmotoris.mvp.BaseMvpFragment
 import kotlinx.android.synthetic.main.fragment_stock.view.*
 
-
 /**
  * A simple [Fragment] subclass.
  */
@@ -26,6 +24,7 @@ class StockFragment : BaseMvpFragment<StockContract.View, StockContract.Presente
     private val adapter = StockAdapter()
 
     override var mPresenter: StockContract.Presenter = StockPresenter()
+    private val sharedPref: SalesMotorisPref by lazy { SalesMotorisPref(context) }
 
     override fun showResponse(response: Stock.StockResponse) {
         v.progress_stock.visibility = View.GONE
@@ -66,10 +65,7 @@ class StockFragment : BaseMvpFragment<StockContract.View, StockContract.Presente
     private fun loadStock() {
         v.progress_stock.visibility = View.VISIBLE
         v.container_stock.visibility = View.GONE
-        val accessToken = SalesMotorisPref(context).accessToken
-        accessToken?.let {
-            mPresenter.getStock(accessToken)
-        }
+        mPresenter.getStock(sharedPref.accessToken!!, sharedPref.id!!)
     }
 
     private fun initRecyler() {

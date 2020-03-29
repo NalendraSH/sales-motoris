@@ -7,8 +7,8 @@ import rx.functions.Action1
 
 class TransactionPresenter : BaseMvpPresenterImpl<TransactionContract.View>(), TransactionContract.Presenter {
 
-    override fun getTransactions(accessToken: String, day: String) {
-        ApiManager.getTransactions(accessToken, day)
+    override fun getTransactions(accessToken: String, idSales: String) {
+        ApiManager.getTransactions(accessToken, idSales)
             .doOnError { mView?.showMessage(it.toString()) }
             .subscribe(
                 Action1 { mView?.showResponse(it) },

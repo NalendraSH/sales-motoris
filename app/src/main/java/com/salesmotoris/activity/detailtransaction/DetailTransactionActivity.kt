@@ -23,6 +23,9 @@ class DetailTransactionActivity : BaseMvpActivity<DetailTransactionContract.View
 
     private val adapter = DetailTransactionAdapter()
     private lateinit var transactionId: String
+    private lateinit var visitationId: String
+    private lateinit var storeId: String
+    private val sharedPref: SalesMotorisPref by lazy { SalesMotorisPref(this) }
 
     override var mPresenter: DetailTransactionContract.Presenter = DetailTransactionPresenter()
 
@@ -58,11 +61,10 @@ class DetailTransactionActivity : BaseMvpActivity<DetailTransactionContract.View
     private fun loadDetailTransaction() {
         progress_detail_transaction.visibility = View.VISIBLE
         container_detail_transaction.visibility = View.GONE
-        val accessToken = SalesMotorisPref(this).accessToken
         transactionId = intent.getStringExtra("transaction_id")!!
-        accessToken?.let {
-            mPresenter.getDetailTransactions(accessToken, transactionId)
-        }
+        visitationId = intent.getStringExtra("visitation_id")!!
+        storeId = intent.getStringExtra("store_id")!!
+        mPresenter.getDetailTransactions(sharedPref.accessToken!!, transactionId, sharedPref.id!!)
     }
 
     private fun initRecycler() {
@@ -73,13 +75,14 @@ class DetailTransactionActivity : BaseMvpActivity<DetailTransactionContract.View
     private fun setToolbar() {
         toolbar_detail_transaction.title = intent.getStringExtra("store")
         toolbar_detail_transaction.setNavigationIcon(R.drawable.ic_nav_back)
-        toolbar_detail_transaction.setNavigationOnClickListener {
-            setResult(Activity.RESULT_OK, Intent())
-            finish()
-        }
+        toolbar_detail_transaction.setNavigationOnClickListener { finish() }
         val editButton = toolbar_detail_transaction.findViewById<ImageView>(R.id.toolbar_detail_transaction_edit)
         editButton.setOnClickListener {
-            startActivity(intentFor<InputDetailTransactionActivity>("transaction_id" to transactionId))
+            startActivity(intentFor<InputDetailTransactionActivity>(
+                "transaction_id" to transactionId,
+                "visitation_id" to visitationId,
+                "store_id" to storeId
+            ))
         }
     }
 

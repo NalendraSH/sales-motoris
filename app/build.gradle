@@ -7,7 +7,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.salesmotoris"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -16,11 +16,13 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "BASE_URL", "\"http://6adc8c15.ngrok.io/salesmotoris/api/v2/\""
+//            buildConfigField "String", "BASE_URL", "\"https://ceabe491.ngrok.io/salesmotoris/api/v2/\""
+            buildConfigField "String", "BASE_URL", "\"https://salesmotoris.herokuapp.com/api/v2/\""
             minifyEnabled false
         }
         release {
-            buildConfigField "String", "BASE_URL", "\"http://6adc8c15.ngrok.io/salesmotoris/api/v2/\""
+//            buildConfigField "String", "BASE_URL", "\"https://ceabe491.ngrok.io/salesmotoris/api/v2/\""
+            buildConfigField "String", "BASE_URL", "\"https://salesmotoris.herokuapp.com/api/v2/\""
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
