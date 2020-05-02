@@ -7,8 +7,8 @@ import rx.functions.Action1
 
 class HomePresenter : BaseMvpPresenterImpl<HomeContract.View>(), HomeContract.Presenter{
 
-    override fun getTwoDaysReport(accessToken: String) {
-        ApiManager.getTwoDaysReport(accessToken)
+    override fun getTwoDaysReport(accessToken: String, idSales: String) {
+        ApiManager.getTwoDaysReport(accessToken, idSales)
             .doOnError { mView?.showMessage(it.toString()) }
             .subscribe(
                 Action1 { mView?.showResponse(it) },

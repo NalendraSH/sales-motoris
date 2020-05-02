@@ -11,7 +11,7 @@ interface InputDetailTransactionContract {
     interface View: BaseMvpView {
         fun showResponse(response: DetailTransaction.DetailTransactionResponse)
 
-        fun showSubmitResponse(response: DetailTransaction.SubmitTransactionResponse)
+        fun showSubmitResponse(response: Meta)
 
         fun showError()
 

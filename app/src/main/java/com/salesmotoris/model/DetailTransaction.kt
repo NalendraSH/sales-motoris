@@ -4,8 +4,6 @@ object DetailTransaction {
 
     data class DetailTransactionResponse(val meta: Meta, val data: Data)
 
-    data class SubmitTransactionResponse(val meta: Meta)
-
     data class Data(val detail_transaction: MutableList<DetailTransaction>,
                     val total_income: Int,
                     val image: String)

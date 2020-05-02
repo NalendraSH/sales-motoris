@@ -12,25 +12,22 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.salesmotoris.R
 import com.salesmotoris.api.ApiManager
+import com.salesmotoris.library.PathFromUri
 import com.salesmotoris.library.RecyclerItemTouchHelper
 import com.salesmotoris.library.SalesMotorisPref
 import com.salesmotoris.model.DetailTransaction
 import com.salesmotoris.model.Meta
 import com.salesmotoris.mvp.BaseMvpActivity
 import kotlinx.android.synthetic.main.activity_input_detail_transaction.*
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.jetbrains.anko.toast
 import java.io.File
 import java.io.IOException
-
 
 class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionContract.View, InputDetailTransactionContract.Presenter>(), InputDetailTransactionContract.View, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
@@ -54,18 +51,22 @@ class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionCon
     override var mPresenter: InputDetailTransactionContract.Presenter = InputDetailTransactionPresenter()
 
     override fun showResponse(response: DetailTransaction.DetailTransactionResponse) {
-        progress_input_detail_transaction.visibility = View.GONE
-        container_input_detail_transaction.visibility = View.VISIBLE
-
-        adapter.addDetailTransactions(response.data.detail_transaction)
+        ApiManager.getProducts(SalesMotorisPref(this).accessToken!!)
+                .doOnError { Log.d("product_error", it.message.toString()) }
+                .subscribe {
+                    adapter.addDetailTransactionsAndProduct(response.data.detail_transaction, it.data)
+                    progress_input_detail_transaction.visibility = View.GONE
+                    container_input_detail_transaction.visibility = View.VISIBLE
+                    scrollToBottom()
+                }
     }
 
-    override fun showSubmitResponse(response: DetailTransaction.SubmitTransactionResponse) {
+    override fun showSubmitResponse(response: Meta) {
         progress_input_detail_transaction_save.visibility = View.GONE
         button_input_detail_transaction_save.visibility = View.VISIBLE
 
-        toast(response.meta.message)
-        if (response.meta.code == 200) {
+        toast(response.message)
+        if (response.code == 200) {
             finish()
         }
     }
@@ -94,7 +95,11 @@ class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionCon
         val transactionId = intent.getStringExtra("transaction_id")!!
         if (transactionId == "0") {
             toolbar_input_detail_transaksi.title = "Buat Transaksi Baru"
-            adapter.addDetailTransaction(defaultDetailTransaction)
+            ApiManager.getProducts(SalesMotorisPref(this).accessToken!!)
+                .doOnError { Log.d("product_error", it.message.toString()) }
+                .subscribe {
+                    adapter.addDetailTransactionAndProduct(defaultDetailTransaction, it.data)
+                }
         } else {
             toolbar_input_detail_transaksi.title = "Edit Transaksi"
             progress_input_detail_transaction.visibility = View.VISIBLE
@@ -110,12 +115,16 @@ class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionCon
         }
 
         button_input_detail_transaction_add.setOnClickListener {
-            adapter.addDetailTransaction(defaultDetailTransaction)
-            adapter.addScrollListener(object : InputDetailTransactionAdapter.OnScroll {
-                override fun onScrollToBottom() {
-                    scrollToBottom()
+            ApiManager.getProducts(SalesMotorisPref(this).accessToken!!)
+                .doOnError { Log.d("product_error", it.message.toString()) }
+                .subscribe {
+                    adapter.addDetailTransactionAndProduct(defaultDetailTransaction, it.data)
+                    adapter.addScrollListener(object : InputDetailTransactionAdapter.OnScroll {
+                        override fun onScrollToBottom() {
+                            scrollToBottom()
+                        }
+                    })
                 }
-            })
         }
 
         adapter.addProductListener(object : InputDetailTransactionAdapter.OnProductModified {
@@ -138,6 +147,7 @@ class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionCon
                 } else {
                     detailTransactions.removeAt(position)
                 }
+                Log.d("detail_transaction", Gson().toJson(detailTransactions))
             }
         })
 
@@ -155,7 +165,8 @@ class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionCon
                             }
                         }
                     }
-//                    val gsonBuilder = GsonBuilder().disableHtmlEscaping().create()
+
+//                    Log.d("detail_transaction", Gson().toJson(dataTransactionBody))
 
                     val dataTransactionJson =
                         Gson().toJson(dataTransactionBody).toRequestBody("text/plain".toMediaTypeOrNull())
@@ -171,11 +182,11 @@ class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionCon
                     val currentLocationJson = Gson().toJson(currentLocation)
                         .toRequestBody("text/plain".toMediaTypeOrNull())
 
-                    val fileReqBody = transactionImage.asRequestBody("image/*".toMediaTypeOrNull())
-                    val image =
-                        MultipartBody.Part.createFormData("image", transactionImage.name, fileReqBody)
-
                     if (::transactionImage.isInitialized) {
+                        val fileReqBody = transactionImage.asRequestBody("image/*".toMediaTypeOrNull())
+                        val image =
+                            MultipartBody.Part.createFormData("image", transactionImage.name, fileReqBody)
+
                         progress_input_detail_transaction_save.visibility = View.VISIBLE
                         button_input_detail_transaction_save.visibility = View.GONE
                         mPresenter.submitDetailTransaction(
@@ -205,10 +216,12 @@ class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionCon
             try {
                 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 //                transactionImage = File(imageUri?.path)
-                transactionImage = File(getRealPathFromURI(imageUri))
-                val bitmap = Images.Media.getBitmap(contentResolver, imageUri)
-                imageview_input_detail_transaction.setImageBitmap(bitmap)
-                linear_placeholder_input_detail_transaction.visibility = View.GONE
+                imageUri?.let {
+                    transactionImage = File(PathFromUri.getPathFromUri(this, imageUri))
+                    val bitmap = Images.Media.getBitmap(contentResolver, imageUri)
+                    imageview_input_detail_transaction.setImageBitmap(bitmap)
+                    linear_placeholder_input_detail_transaction.visibility = View.GONE
+                }
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -223,14 +236,14 @@ class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionCon
 //        return Uri.parse(path)
 //    }
 
-    private fun getRealPathFromURI(uri: Uri?): String? {
-        val cursor = contentResolver.query(uri!!, null, null, null, null)
-        cursor?.moveToFirst()
-        val idx = cursor?.getColumnIndex(Images.ImageColumns.DATA)
-        val path = cursor?.getString(idx!!)
-        cursor?.close()
-        return path
-    }
+//    private fun getRealPathFromURI(uri: Uri?): String? {
+//        val cursor = contentResolver.query(uri!!, null, null, null, null)
+//        cursor?.moveToFirst()
+//        val idx = cursor?.getColumnIndex(Images.ImageColumns.DATA)
+//        val path = cursor?.getString(idx!!)
+//        cursor?.close()
+//        return path
+//    }
 
     private fun scrollToBottom() {
         container_input_detail_transaction.post {

@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(), HomeContract.View {
 
     private lateinit var v: View
+    private val sharedPref: SalesMotorisPref by lazy { SalesMotorisPref(context) }
 
     override var mPresenter: HomeContract.Presenter = HomePresenter()
 
@@ -52,10 +53,7 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
 
         v.progress_home.visibility = View.VISIBLE
         v.container_home.visibility = View.GONE
-        val accessToken = SalesMotorisPref(context).accessToken
-        accessToken?.let {
-            mPresenter.getTwoDaysReport(it)
-        }
+        mPresenter.getTwoDaysReport(sharedPref.accessToken!!, sharedPref.id!!)
 
         return v
     }

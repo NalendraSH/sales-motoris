@@ -16,7 +16,8 @@ interface ApiService{
                         @Field("level")level: String): Observable<Login.LoginResponse>
 
     @GET("report")
-    fun getTwoDaysReport(@Header("Authorization")accessToken: String): Observable<Report.ReportResponse>
+    fun getTwoDaysReport(@Header("Authorization")accessToken: String,
+                         @Query("id_sales")idSales: String): Observable<Report.ReportResponse>
 
     @GET("visitation")
     fun getVisitation(@Header("Authorization")accessToken: String,
@@ -56,7 +57,7 @@ interface ApiService{
                                 @Part("id_visitation")visitationId: RequestBody,
                                 @Part("id_store")storeId: RequestBody,
                                 @Part("coordinate")currentLocation: RequestBody,
-                                @Part image: MultipartBody.Part): Observable<DetailTransaction.SubmitTransactionResponse>
+                                @Part image: MultipartBody.Part): Observable<Meta>
 
     @POST("store")
     @Headers("Content-Type: application/json")

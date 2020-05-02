@@ -56,8 +56,8 @@ object ApiManager{
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())!!
 
-    fun getTwoDaysReport(accessToken: String) =
-        mApiService.getTwoDaysReport("Bearer $accessToken")
+    fun getTwoDaysReport(accessToken: String, idSales: String) =
+        mApiService.getTwoDaysReport("Bearer $accessToken", idSales)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())!!
 
@@ -75,6 +75,9 @@ object ApiManager{
         mApiService.getProducts("Bearer $accessToken")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())!!
+
+    fun getProductsCoroutines(accessToken: String) =
+        mApiService.getProducts("Bearer $accessToken")
 
     fun submitTakeStock(accessToken: String, productId: String, quantity: String) =
         mApiService.submitTakeStock(accessToken, productId, quantity)

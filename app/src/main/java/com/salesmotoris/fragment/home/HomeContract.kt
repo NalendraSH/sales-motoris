@@ -11,6 +11,6 @@ interface HomeContract {
         fun showError()
     }
     interface Presenter: BaseMvpPresenter<View>{
-        fun getTwoDaysReport(accessToken: String)
+        fun getTwoDaysReport(accessToken: String, idSales: String)
     }
 }
