@@ -105,8 +105,8 @@ class AddStoreActivity : BaseMvpActivity<AddStoreContract.View, AddStoreContract
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     val addressData = data?.getParcelableExtra<AddressData>(Constants.ADDRESS_INTENT)
-                    Log.d("selected_location", addressData.toString())
                     val address = addressData?.addressList!![0].getAddressLine(0)
+                    Log.d("selected_location", "lat: ${addressData.latitude} long: ${addressData.longitude}")
                     selectedLatitude = addressData.latitude
                     selectedLongitude = addressData.longitude
 

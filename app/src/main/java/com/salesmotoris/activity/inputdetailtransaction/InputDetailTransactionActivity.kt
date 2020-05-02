@@ -1,12 +1,10 @@
 package com.salesmotoris.activity.inputdetailtransaction
 
-import android.app.Activity
-import android.content.Intent
-import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore.Images
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,27 +12,35 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.salesmotoris.R
 import com.salesmotoris.api.ApiManager
+import com.salesmotoris.library.GPSTracker
 import com.salesmotoris.library.PathFromUri
 import com.salesmotoris.library.RecyclerItemTouchHelper
 import com.salesmotoris.library.SalesMotorisPref
 import com.salesmotoris.model.DetailTransaction
 import com.salesmotoris.model.Meta
 import com.salesmotoris.mvp.BaseMvpActivity
+import com.vansuita.pickimage.bean.PickResult
+import com.vansuita.pickimage.bundle.PickSetup
+import com.vansuita.pickimage.dialog.PickImageDialog
+import com.vansuita.pickimage.listeners.IPickResult
 import kotlinx.android.synthetic.main.activity_input_detail_transaction.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
 import java.io.File
-import java.io.IOException
 
-class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionContract.View, InputDetailTransactionContract.Presenter>(), InputDetailTransactionContract.View, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+
+class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionContract.View, InputDetailTransactionContract.Presenter>(), InputDetailTransactionContract.View, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, IPickResult {
 
     companion object {
         private const val IMAGE_REQUEST_CODE = 1
     }
     private lateinit var transactionImage: File
+    private var currentLatitude = 0.0
+    private var currentLongitude = 0.0
     private val adapter = InputDetailTransactionAdapter()
     private val sharedPref: SalesMotorisPref by lazy { SalesMotorisPref(this) }
     private val detailTransactions: MutableList<DetailTransaction.DetailTransaction> = mutableListOf()
@@ -85,6 +91,21 @@ class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionCon
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    override fun onPickResult(result: PickResult?) {
+        result?.let {
+            if (result.error == null) {
+                transactionImage = File(PathFromUri.getPathFromUri(this, result.uri))
+                val bitmap = result.bitmap
+                imageview_input_detail_transaction.setImageBitmap(bitmap)
+                linear_placeholder_input_detail_transaction.visibility = View.GONE
+            } else {
+                toast("Terjadi kesalahan")
+                Log.d("file picker error", "${result.error.message}")
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_input_detail_transaction)
@@ -108,10 +129,11 @@ class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionCon
         }
 
         imageview_input_detail_transaction.setOnClickListener {
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent, "Please Select Image"), IMAGE_REQUEST_CODE)
+//            val intent = Intent()
+//            intent.type = "*/*"
+//            intent.action = Intent.ACTION_GET_CONTENT
+//            startActivityForResult(Intent.createChooser(intent, "Please Select Image"), IMAGE_REQUEST_CODE)
+            PickImageDialog.build(PickSetup()).show(this)
         }
 
         button_input_detail_transaction_add.setOnClickListener {
@@ -178,29 +200,36 @@ class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionCon
                         .toRequestBody("text/plain".toMediaTypeOrNull())
                     val storeId = intent.getStringExtra("store_id")!!
                         .toRequestBody("text/plain".toMediaTypeOrNull())
-                    val currentLocation = DetailTransaction.Coordinate(-7.2372388, 112.7404682)
-                    val currentLocationJson = Gson().toJson(currentLocation)
-                        .toRequestBody("text/plain".toMediaTypeOrNull())
 
                     if (::transactionImage.isInitialized) {
                         val fileReqBody = transactionImage.asRequestBody("image/*".toMediaTypeOrNull())
-                        val image =
-                            MultipartBody.Part.createFormData("image", transactionImage.name, fileReqBody)
-
-                        progress_input_detail_transaction_save.visibility = View.VISIBLE
-                        button_input_detail_transaction_save.visibility = View.GONE
-                        mPresenter.submitDetailTransaction(
-                            sharedPref.accessToken!!,
-                            sharedPref.id!!,
-                            dataTransactionJson,
-                            totalIncome,
-                            totalItems,
-                            transactionId.toRequestBody("text/plain".toMediaTypeOrNull()),
-                            visitationId,
-                            storeId,
-                            currentLocationJson,
-                            image
+                        val image = MultipartBody.Part.createFormData(
+                            "image",
+                            transactionImage.name,
+                            fileReqBody
                         )
+                        if (currentLatitude != 0.0 && currentLongitude != 0.0) {
+                            val currentLocation = DetailTransaction.Coordinate(currentLatitude, currentLongitude)
+                            val currentLocationJson = Gson().toJson(currentLocation)
+                                .toRequestBody("text/plain".toMediaTypeOrNull())
+
+                            progress_input_detail_transaction_save.visibility = View.VISIBLE
+                            button_input_detail_transaction_save.visibility = View.GONE
+                            mPresenter.submitDetailTransaction(
+                                sharedPref.accessToken!!,
+                                sharedPref.id!!,
+                                dataTransactionJson,
+                                totalIncome,
+                                totalItems,
+                                transactionId.toRequestBody("text/plain".toMediaTypeOrNull()),
+                                visitationId,
+                                storeId,
+                                currentLocationJson,
+                                image
+                            )
+                        } else {
+                            longToast("Mohon aktifkan gps atau koneksi anda terlebih dahulu")
+                        }
                     } else {
                         toast("Mohon pilih gambar terlebih dahulu")
                     }
@@ -208,25 +237,40 @@ class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionCon
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    override fun onResume() {
+        super.onResume()
 
-        if (requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null && data.data != null){
-            val imageUri = data.data
-            try {
-                @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-//                transactionImage = File(imageUri?.path)
-                imageUri?.let {
-                    transactionImage = File(PathFromUri.getPathFromUri(this, imageUri))
-                    val bitmap = Images.Media.getBitmap(contentResolver, imageUri)
-                    imageview_input_detail_transaction.setImageBitmap(bitmap)
-                    linear_placeholder_input_detail_transaction.visibility = View.GONE
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
+        val gpsTracker = GPSTracker(this)
+        if (gpsTracker.getIsGPSTrackingEnabled()) {
+            val currentLocation = "${gpsTracker.getLatitude()}\n${gpsTracker.getLongitude()}\n${gpsTracker.getAddressLine(this)}"
+            Log.d("current_location", currentLocation)
+
+            currentLatitude = gpsTracker.getLatitude()
+            currentLongitude = gpsTracker.getLongitude()
+        } else {
+            gpsTracker.showSettingsAlert()
         }
     }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if (requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null && data.data != null){
+//            val imageUri = data.data
+//            try {
+//                @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+////                transactionImage = File(imageUri?.path)
+//                imageUri?.let {
+//                    transactionImage = File(PathFromUri.getPathFromUri(this, imageUri))
+//                    val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+//                    imageview_input_detail_transaction.setImageBitmap(bitmap)
+//                    linear_placeholder_input_detail_transaction.visibility = View.GONE
+//                }
+//            } catch (e: IOException) {
+//                e.printStackTrace()
+//            }
+//        }
+//    }
 
 //    private fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
 //        val bytes = ByteArrayOutputStream()
