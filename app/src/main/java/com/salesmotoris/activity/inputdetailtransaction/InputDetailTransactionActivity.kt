@@ -95,6 +95,7 @@ class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionCon
     override fun onPickResult(result: PickResult?) {
         result?.let {
             if (result.error == null) {
+                Log.d("image_uri", "image uri ${result.uri}")
                 transactionImage = File(PathFromUri.getPathFromUri(this, result.uri))
                 val bitmap = result.bitmap
                 imageview_input_detail_transaction.setImageBitmap(bitmap)
@@ -133,7 +134,9 @@ class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionCon
 //            intent.type = "*/*"
 //            intent.action = Intent.ACTION_GET_CONTENT
 //            startActivityForResult(Intent.createChooser(intent, "Please Select Image"), IMAGE_REQUEST_CODE)
-            PickImageDialog.build(PickSetup()).show(this)
+            PickImageDialog.build(
+                PickSetup().setSystemDialog(true)
+            ).show(this)
         }
 
         button_input_detail_transaction_add.setOnClickListener {
