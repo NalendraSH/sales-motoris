@@ -38,6 +38,8 @@ object ApiManager{
                 chain.proceed(request)
             })
             addInterceptor(interceptor)
+            connectTimeout(12000, TimeUnit.SECONDS)
+            readTimeout(12000, TimeUnit.SECONDS)
         }
 
         return Retrofit.Builder().baseUrl(SERVER)

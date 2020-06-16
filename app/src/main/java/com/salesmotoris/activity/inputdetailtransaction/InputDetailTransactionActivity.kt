@@ -1,5 +1,7 @@
 package com.salesmotoris.activity.inputdetailtransaction
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -22,15 +24,25 @@ import com.salesmotoris.mvp.BaseMvpActivity
 import com.vansuita.pickimage.bean.PickResult
 import com.vansuita.pickimage.bundle.PickSetup
 import com.vansuita.pickimage.dialog.PickImageDialog
+import com.vansuita.pickimage.enums.EPickType
 import com.vansuita.pickimage.listeners.IPickResult
+import id.zelory.compressor.Compressor
 import kotlinx.android.synthetic.main.activity_input_detail_transaction.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.File
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.coroutineContext
 
 
 class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionContract.View, InputDetailTransactionContract.Presenter>(), InputDetailTransactionContract.View, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, IPickResult {
@@ -96,7 +108,16 @@ class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionCon
         result?.let {
             if (result.error == null) {
                 Log.d("image_uri", "image uri ${result.uri}")
-                transactionImage = File(PathFromUri.getPathFromUri(this, result.uri))
+//                transactionImage = File(PathFromUri.getPathFromUri(this, result.uri))
+
+                CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+                    val compressedImageFile = Compressor.compress(
+                        this@InputDetailTransactionActivity,
+                        File(PathFromUri.getPathFromUri(this@InputDetailTransactionActivity, result.uri))
+                    )
+                    transactionImage = compressedImageFile
+                }
+
                 val bitmap = result.bitmap
                 imageview_input_detail_transaction.setImageBitmap(bitmap)
                 linear_placeholder_input_detail_transaction.visibility = View.GONE
@@ -135,7 +156,9 @@ class InputDetailTransactionActivity : BaseMvpActivity<InputDetailTransactionCon
 //            intent.action = Intent.ACTION_GET_CONTENT
 //            startActivityForResult(Intent.createChooser(intent, "Please Select Image"), IMAGE_REQUEST_CODE)
             PickImageDialog.build(
-                PickSetup().setSystemDialog(true)
+                PickSetup()
+                    .setSystemDialog(true)
+                    .setPickTypes(EPickType.CAMERA)
             ).show(this)
         }
 

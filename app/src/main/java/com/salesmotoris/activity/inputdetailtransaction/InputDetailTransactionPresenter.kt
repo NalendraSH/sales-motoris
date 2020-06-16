@@ -1,5 +1,6 @@
 package com.salesmotoris.activity.inputdetailtransaction
 
+import android.util.Log
 import com.salesmotoris.api.ApiManager
 import com.salesmotoris.api.ErrorResponseHandler
 import com.salesmotoris.model.DetailTransaction
@@ -32,7 +33,7 @@ class InputDetailTransactionPresenter : BaseMvpPresenterImpl<InputDetailTransact
         image: MultipartBody.Part
     ) {
         ApiManager.submitDetailTransaction(accessToken, idSales, detailTransaction, totalIncome, totalItems, transactionId, visitationId, storeId, currentLocation, image)
-            .doOnError { mView?.showMessage(it.toString()) }
+            .doOnError { Log.d("okhttp_error", it.message) }
             .subscribe(
                 Action1 { mView?.showSubmitResponse(it) },
                 ErrorResponseHandler(mView, true) {_, _, _ -> mView?.hideButtonProgress()}
