@@ -7,193 +7,288 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.home.HomeFragment">
 
-    <LinearLayout
-        android:id="@+id/container_home"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <androidx.cardview.widget.CardView
+        <LinearLayout
+            android:id="@+id/container_home"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp">
-            <LinearLayout
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimaryDark">
+                    android:orientation="vertical">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimaryDark">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="Laporan kemarin"
+                            android:textColor="@color/colorAccent"
+                            android:fontFamily="@font/roboto_regular"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"/>
+                        <TextView
+                            android:id="@+id/textview_home_yesterday_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:textColor="@color/colorAccent"
+                            android:fontFamily="@font/roboto_regular"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:text="27 Agustus 2019"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        app:cardBackgroundColor="#74B3CE">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:src="@drawable/ic_coins"
+                                android:layout_gravity="center"/>
+                            <TextView
+                                android:id="@+id/textview_home_yesterday_income"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/colorAccent"
+                                android:text="Rp 0" android:fontFamily="@font/nunitosans_bold"
+                                android:textSize="40sp"
+                                android:layout_gravity="center"
+                                tools:text="Rp 1.230.000"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:textColor="@color/colorAccent"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="total pendapatan yang diperoleh"
+                                android:textSize="14sp"
+                                android:layout_gravity="center"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimaryDark">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="Laporan hari ini"
+                            android:textColor="@color/colorAccent"
+                            android:fontFamily="@font/roboto_regular"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"/>
+                        <TextView
+                            android:id="@+id/textview_home_today_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:textColor="@color/colorAccent"
+                            android:fontFamily="@font/roboto_regular"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:text="28 Agustus 2019"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginLeft="10dp"
-                        android:text="Laporan kemarin"
-                        android:textColor="@color/colorAccent"
-                        android:fontFamily="@font/roboto_regular"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
-                    <TextView
-                        android:id="@+id/textview_home_yesterday_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:textColor="@color/colorAccent"
-                        android:fontFamily="@font/roboto_regular"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:text="27 Agustus 2019"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    app:cardBackgroundColor="#74B3CE">
+                        android:text="Toko yang telah dikunjungi"
+                        android:textColor="@color/colorPrimary" />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_margin="10dp"
+                        android:orientation="horizontal">
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/ic_coins"
-                            android:layout_gravity="center"/>
+                            android:src="@drawable/ic_shop"/>
                         <TextView
-                            android:id="@+id/textview_home_yesterday_income"
+                            android:id="@+id/textview_home_today_store"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorAccent"
-                            android:text="Rp 0" android:fontFamily="@font/nunitosans_bold"
-                            android:textSize="40sp"
-                            android:layout_gravity="center"
-                            tools:text="Rp 1.230.000"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:textColor="@color/colorAccent"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="total pendapatan yang diperoleh"
-                            android:textSize="14sp"
-                            android:layout_gravity="center"/>
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
+                            android:text="0 toko"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="28sp"
+                            android:fontFamily="@font/roboto_bold"
+                            tools:text="4 toko"/>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/colorPrimary"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_coins_black"
+                            android:layout_gravity="center_vertical"/>
+                        <TextView
+                            android:id="@+id/textview_home_today_income"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
+                            android:text="Rp 0"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="28sp"
+                            android:fontFamily="@font/roboto_bold"
+                            tools:text="Rp 3.420.000"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp">
-            <LinearLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_margin="15dp">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimaryDark">
+                    android:orientation="vertical">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimaryDark">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="Sisa target"
+                            android:textColor="@color/colorAccent"
+                            android:fontFamily="@font/roboto_regular"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginLeft="10dp"
-                        android:text="Laporan hari ini"
-                        android:textColor="@color/colorAccent"
-                        android:fontFamily="@font/roboto_regular"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        android:text="Sisa target effective call"
+                        android:textColor="@color/colorPrimary" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_target"
+                            android:layout_gravity="center_vertical"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
+                            android:text="345"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="28sp"
+                            android:fontFamily="@font/roboto_bold"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/colorPrimary"/>
                     <TextView
-                        android:id="@+id/textview_home_today_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:textColor="@color/colorAccent"
-                        android:fontFamily="@font/roboto_regular"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:text="28 Agustus 2019"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="Toko yang telah dikunjungi"
-                    android:textColor="@color/colorPrimary" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="Sisa target omset"
+                        android:textColor="@color/colorPrimary" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_shop"/>
-                    <TextView
-                        android:id="@+id/textview_home_today_store"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginLeft="15dp"
-                        android:text="0 toko"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="28sp"
-                        android:fontFamily="@font/roboto_bold"
-                        tools:text="4 toko"/>
+                        android:layout_margin="10dp"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_coins_black"
+                            android:layout_gravity="center_vertical"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
+                            android:text="Rp 2.870.000"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="28sp"
+                            android:fontFamily="@font/roboto_bold" />
+                    </LinearLayout>
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/colorPrimary"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_coins_black"
-                        android:layout_gravity="center_vertical"/>
-                    <TextView
-                        android:id="@+id/textview_home_today_income"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginLeft="15dp"
-                        android:text="Rp 0"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="28sp"
-                        android:fontFamily="@font/roboto_bold"
-                        tools:text="Rp 3.420.000"/>
-                </LinearLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
 
     <ProgressBar
         android:visibility="gone"
