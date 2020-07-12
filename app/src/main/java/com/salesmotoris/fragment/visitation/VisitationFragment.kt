@@ -36,7 +36,6 @@ class VisitationFragment : BaseMvpFragment<VisitationContract.View, VisitationCo
         val wednesdaySchedule = response.data.Rabu
         val thursdaySchedule = response.data.Kamis
         val fridaySchedule = response.data.Jumat
-        Log.d("OkHttp", "schedule jumat 1 $fridaySchedule")
 
         val bulletList = Html.fromHtml("&#8226;")
         //senin
