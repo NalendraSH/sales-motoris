@@ -242,14 +242,16 @@
                             android:src="@drawable/ic_target"
                             android:layout_gravity="center_vertical"/>
                         <TextView
+                            android:id="@+id/textview_home_target_effective_call"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
                             android:layout_marginLeft="15dp"
-                            android:text="345"
+                            android:text="0"
                             android:textColor="@color/colorPrimary"
                             android:textSize="28sp"
-                            android:fontFamily="@font/roboto_bold"/>
+                            android:fontFamily="@font/roboto_bold"
+                            tools:text="245"/>
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"
@@ -274,14 +276,16 @@
                             android:src="@drawable/ic_coins_black"
                             android:layout_gravity="center_vertical"/>
                         <TextView
+                            android:id="@+id/textview_home_target_omset"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
                             android:layout_marginLeft="15dp"
-                            android:text="Rp 2.870.000"
+                            android:text="Rp 0"
                             android:textColor="@color/colorPrimary"
                             android:textSize="28sp"
-                            android:fontFamily="@font/roboto_bold" />
+                            android:fontFamily="@font/roboto_bold"
+                            tools:text="Rp 8.120.000"/>
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

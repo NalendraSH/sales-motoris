@@ -28,12 +28,15 @@ class HomeFragment : BaseMvpFragment<HomeContract.View, HomeContract.Presenter>(
         v.progress_home.visibility = View.GONE
         v.container_home.visibility = View.VISIBLE
 
-        v.textview_home_yesterday_date.text = getString(R.string.display_day_date, response.data[0].days, response.data[0].date.customFormat("yyyy-MM-dd", "dd MMMM yyyy"))
-        v.textview_home_yesterday_income.text = getString(R.string.display_currency, response.data[0].total_income.toFloat().formatCurrency())
+        v.textview_home_yesterday_date.text = getString(R.string.display_day_date, response.data.daily[0].days, response.data.daily[0].date.customFormat("yyyy-MM-dd", "dd MMMM yyyy"))
+        v.textview_home_yesterday_income.text = getString(R.string.display_currency, response.data.daily[0].total_income.toFloat().formatCurrency())
 
-        v.textview_home_today_date.text = getString(R.string.display_day_date, response.data[1].days, response.data[1].date.customFormat("yyyy-MM-dd", "dd MMMM yyyy"))
-        v.textview_home_today_store.text = getString(R.string.display_store, response.data[1].completed_visitation)
-        v.textview_home_today_income.text = getString(R.string.display_currency, response.data[1].total_income.toFloat().formatCurrency())
+        v.textview_home_today_date.text = getString(R.string.display_day_date, response.data.daily[1].days, response.data.daily[1].date.customFormat("yyyy-MM-dd", "dd MMMM yyyy"))
+        v.textview_home_today_store.text = getString(R.string.display_store, response.data.daily[1].completed_visitation)
+        v.textview_home_today_income.text = getString(R.string.display_currency, response.data.daily[1].total_income.toFloat().formatCurrency())
+
+        v.textview_home_target_effective_call.text = response.data.target.eff_call.toString()
+        v.textview_home_target_omset.text = getString(R.string.display_currency, response.data.target.income.toFloat().formatCurrency())
     }
 
     override fun showError() {
