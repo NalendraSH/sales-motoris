@@ -4,6 +4,7 @@ package com.salesmotoris.fragment.visitation
 import android.content.Intent
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.salesmotoris.library.SalesMotorisPref
 import com.salesmotoris.model.Visitation
 import com.salesmotoris.mvp.BaseMvpFragment
 import kotlinx.android.synthetic.main.fragment_visitation.view.*
+import org.jetbrains.anko.collections.forEachByIndex
 
 /**
  * A simple [Fragment] subclass.
@@ -29,37 +31,44 @@ class VisitationFragment : BaseMvpFragment<VisitationContract.View, VisitationCo
         v.progress_visitation.visibility = View.GONE
         v.container_visitation.visibility = View.VISIBLE
 
+        val mondaySchedule = response.data.Senin
+        val tuesdaySchedule = response.data.Selasa
+        val wednesdaySchedule = response.data.Rabu
+        val thursdaySchedule = response.data.Kamis
+        val fridaySchedule = response.data.Jumat
+        Log.d("OkHttp", "schedule jumat 1 $fridaySchedule")
+
         val bulletList = Html.fromHtml("&#8226;")
         //senin
         var mondayVisitation = ""
-        for (store in response.data.Senin){
+        mondaySchedule.forEach{ store ->
             mondayVisitation += "$bulletList $store\n"
         }
-        v.textview_visitation_senin.text = mondayVisitation.substring(0, mondayVisitation.length - 1)
+        v.textview_visitation_senin.text = mondayVisitation.trim()
         //selasa
         var tuesdayVisitation = ""
-        for (store in response.data.Selasa){
+        tuesdaySchedule.forEach{ store ->
             tuesdayVisitation += "$bulletList $store\n"
         }
-        v.textview_visitation_selasa.text = tuesdayVisitation.substring(0, tuesdayVisitation.length - 1)
+        v.textview_visitation_selasa.text = tuesdayVisitation.trim()
         //rabu
         var wednesdayVisitation = ""
-        for (store in response.data.Rabu){
+        wednesdaySchedule.forEach{ store ->
             wednesdayVisitation += "$bulletList $store\n"
         }
-        v.textview_visitation_rabu.text = wednesdayVisitation.substring(0, wednesdayVisitation.length - 1)
+        v.textview_visitation_rabu.text = wednesdayVisitation.trim()
         //kamis
         var thursdayVisitation = ""
-        for (store in response.data.Kamis){
+        thursdaySchedule.forEach{ store ->
             thursdayVisitation += "$bulletList $store\n"
         }
-        v.textview_visitation_kamis.text = thursdayVisitation.substring(0, thursdayVisitation.length - 1)
+        v.textview_visitation_kamis.text = thursdayVisitation.trim()
         //friday
         var fridayVisitation = ""
-        for (store in response.data.Jumat){
+        fridaySchedule.forEach{ store ->
             fridayVisitation += "$bulletList $store\n"
         }
-        v.textview_visitation_jumat.text = fridayVisitation.substring(0, fridayVisitation.length - 1)
+        v.textview_visitation_jumat.text = fridayVisitation.trim()
     }
 
     override fun showError() {
