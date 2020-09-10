@@ -101,9 +101,9 @@ class InputDetailTransactionAdapter : RecyclerView.Adapter<InputDetailTransactio
             itemView.constraint_item_input_detail_transaction_foreground.visibility = View.VISIBLE
             itemView.progress_item_input_detail_transaction.visibility = View.GONE
             var selectedPosition = 0
-            products.forEach { product ->
+            products.forEachIndexed { index, product ->
                 if (product.name == detailTransaction.product) {
-                    selectedPosition = product.id - 1
+                    selectedPosition = index
                 }
             }
             itemView.spinner_input_detail_transaction.adapter = ProductAdapter(context, products)
